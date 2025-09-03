@@ -23,7 +23,7 @@ h1 {
   color: #f1c40f;
   text-shadow: 2px 2px 4px #000;
   font-size: 2.5em;
-  margin: 25px 0px; /* 上下の余白を調整 */
+  margin: 25px 0 0px; /* 上下の余白を調整 */
 }
 
 /* --- 表彰台エリア (変更なし) --- */
@@ -53,11 +53,14 @@ h1 {
 }
 
 .podium-item img { margin-bottom: 10px; }
-.podium-name { font-size: 1.4em; font-weight: bold; word-wrap: break-word; }
+.podium-class {
+  font-size: 1.0em; /* 例: クラス名のサイズ */
+}
+.podium-name { font-size: 1.2em; font-weight: bold; word-wrap: break-word; }
 .podium-score { font-size: 1.2em; color: #f1c40f; }
-.podium-1st { background-color: #c0392b; height: 210px; order: 2; }
-.podium-2nd { background-color: #2980b9; height: 170px; order: 1; }
-.podium-3rd { background-color: #27ae60; height: 140px; order: 3; }
+.podium-1st { background-color: #c0392b; height: 230px; order: 2; }
+.podium-2nd { background-color: #2980b9; height: 190px; order: 1; }
+.podium-3rd { background-color: #27ae60; height: 160px; order: 3; }
 
 /* ★★★ ここからがスクロールエリアのスタイル ★★★ */
 .table-wrapper {
