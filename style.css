@@ -23,7 +23,8 @@
     color: #f1c40f;
     text-shadow: 2px 2px 4px #000;
     font-size: 2.5em;
-    margin: 25px 0; /* 上下の余白を調整 */
+    /* margin: 上 横 下; の順で指定。 */
+    margin: 25px 0 0px;
   }
 
   /* --- 表彰台エリア (変更なし) --- */
@@ -32,32 +33,61 @@
     justify-content: center;
     align-items: flex-end;
     min-height: 280px; /* 高さが潰れないようにmin-heightに変更 */
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding: 0 20px;
   }
   .podium-item {
     width: 30%;
     max-width: 180px;
-    padding: 20px 10px;
+    padding: 10px 10px 20px 20px;
     margin: 0 5px;
     text-align: center;
     border-radius: 10px 10px 0 0;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
     display: flex; /* Flexboxレイアウトを有効化 */
     flex-direction: column; /* 要素を縦に並べる */
-    justify-content: flex-end; /* ★文字を下揃えにする */
-    align-items: center; /* ★イラストを水平方向（横）に中央揃えにする */
-    /* ★★★ 変更点: 上下いっぱいに要素を配置する ★★★ */
-    justify-content: space-between;
   }
 
-  .podium-item img { margin-bottom: 10px; }
-  .podium-name { font-size: 1.6em; font-weight: bold; word-wrap: break-word; }
-  .podium-score { font-size: 1.4em; color: #f1c40f; }
-  .podium-1st { background-color: #c0392b; height: 210px; order: 2; }
-  .podium-2nd { background-color: #2980b9; height: 170px; order: 1; }
-  .podium-3rd { background-color: #27ae60; height: 140px; order: 3; }
+  .podium-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* アスペクト比を保ったまま収める */
+}
+
+/* ★★★ 新規追加: テキストブロックを下に押しやるための設定 ★★★ */
+.podium-text-content {
+  flex-shrink: 0; /* ★テキストが増えても縮まないようにする */
+  }
+}
+  .podium-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  /* ★★★ 変更点: はみ出しを防ぐための改行を許可 ★★★ */
+  overflow-wrap: break-word;
+}
+  .podium-score {
+    font-size: 1.4em;
+    color: #f1c40f; 
+  }
+/* 【変更後】高さを固定する height に戻し、はみ出しを隠す overflow を追加 */
+.podium-1st {
+  background-color: #c0392b;
+  height: 200px; /* ★★★ min-height や padding-top ではなく height に変更 ★★★ */
+  order: 2;
+  overflow: hidden; /* ★★★ 万が一はみ出た場合に備えて隠す設定 ★★★ */
+}
+.podium-2nd {
+  background-color: #2980b9;
+  height: 160px; /* ★★★ height に変更 ★★★ */
+  order: 1;
+  overflow: hidden; /* ★★★ はみ出しを隠す設定 ★★★ */
+}
+.podium-3rd {
+  background-color: #27ae60;
+  height: 130px; /* ★★★ height に変更 ★★★ */
+  order: 3;
+  overflow: hidden; /* ★★★ はみ出しを隠す設定 ★★★ */
+}
 
   /* ★★★ ここからがスクロールエリアのスタイル ★★★ */
   .table-wrapper {
@@ -65,6 +95,19 @@
     overflow-y: auto; /* ★高さを超えたら垂直スクロールバーを表示 */
     padding: 0 20px; /* 左右に少し余白 */
   }
+
+/* 新しく追加した画像ラッパーのスタイル */
+.podium-image-wrapper {
+  flex-grow: 1; /* ★残りの垂直スペースをすべて埋める */
+  min-height: 0; /* ★Flexboxのはみ出しバグを防ぐおまじない */
+
+  /* ★ラッパー自体もFlexboxにして、中の画像を中央揃えにする */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 
   /* スクロールバーの見た目をカスタマイズ（オプション） */
   .table-wrapper::-webkit-scrollbar { width: 10px; }
@@ -83,7 +126,7 @@
   #ranking-board th { background-color: rgba(0, 0, 0, 0.5); }
   #ranking-board tr:hover { background-color: rgba(255, 255, 255, 0.1); }
 
-  /* ★★★ 新規追加: 順位ごとのイラストサイズを個別に指定 ★★★ */
+  /*順位ごとのイラストサイズを個別に指定 */
   .podium-1st img {
     width: 100px;
     height: 100px;
@@ -96,3 +139,33 @@
     width: 50px;
     height: 50px;
   }
+.podium-name {
+  font-size: 1.2em;
+  font-weight: bold;
+
+  /* ★★★ 変更点: はみ出しを防ぐための改行を許可 ★★★ */
+  overflow-wrap: break-word;
+}
+/* ★★★ 新規追加: スマートフォンなどの狭い画面向けの調整 ★★★ */
+@media (max-width: 400px) {
+  .podium-name {
+    font-size: 0.8em; /* 小さな画面では文字サイズを少し小さくする */
+  }
+
+  .podium-score {
+    font-size: 0.7em; /* 同様にスコアも少し小さくする */
+  }
+  .podium-1st img {
+    width: 80px;
+    height: 80px;
+  }
+  .podium-2nd img {
+    width: 50px;
+    height: 50px;
+  }
+  .podium-3rd img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
