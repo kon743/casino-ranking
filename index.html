@@ -3,182 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文化祭カジノ リアルタイムランキング</title>
-  <style>
-    /* --- 基本スタイル --- */
-    body {
-      /* ★★★★★ ここからが背景用の設定 ★★★★★ */
-
-      /* 背景画像を指定します。'background.jpg'の部分を、ご自身がアップロードしたファイル名に変更してください */
-      background-image: 
-        /* 画像の上に重ねる半透明の黒いフィルター（文字を見やすくするため） */
-        linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)),
-        /* 実際の背景画像のURL */
-        url('casino_background.jpg');
-      
-      /* 画面全体を覆うように背景画像を引き伸ばします */
-      background-size: cover;
-      
-      /* 背景画像を中央に配置します */
-      background-position: center center;
-      
-      /* スクロールしても背景画像が動かないように固定します */
-      background-attachment: fixed;
-      
-      /* ★★★★★ ここまでが背景用の設定 ★★★★★ */
-
-
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      color: #ecf0f1;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #f1c40f;
-      text-shadow: 2px 2px 4px #000;
-      font-size: 2.5em;
-    }
-
-    /* --- (以下、表彰台やテーブルのCSSは変更なし) --- */
-    #podium-area {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      height: 280px;
-      margin-bottom: 40px;
-      padding: 0 20px;
-    }
-    .podium-item {
-      width: 30%;
-      max-width: 180px;
-      padding: 20px 10px;
-      margin: 0 5px;
-      text-align: center;
-      border-radius: 10px 10px 0 0;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      transition: all 0.3s ease;
-    }
-    .podium-item img {
-      width: 50px;
-      height: 50px;
-      margin-bottom: 10px;
-    }
-    .podium-name {
-      font-size: 1.2em;
-      font-weight: bold;
-      word-wrap: break-word;
-    }
-    .podium-score {
-      font-size: 1.1em;
-      color: #f1c40f;
-    }
-
-    .podium-1st {
-      background-color: #c0392b;
-      height: 200px;
-      order: 2;
-    }
-    .podium-2nd {
-      background-color: #2980b9;
-      height: 150px;
-      order: 1;
-    }
-    .podium-3rd {
-      background-color: #27ae60;
-      height: 100px;
-      order: 3;
-    }
-
-    #ranking-board {
-      width: 100%;
-      max-width: 700px;
-      margin: 20px auto;
-      border-collapse: collapse;
-      background-color: rgba(0, 0, 0, 0.4); /* 背景が見えるように少し濃いめの半透明に */
-    }
-    #ranking-board th, #ranking-board td {
-      border-bottom: 1px solid #34495e;
-      padding: 12px 15px;
-      text-align: left;
-    }
-    #ranking-board th {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-    #ranking-board tr:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-  </style>
+  <title>高1-7 カジノランキング</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- (HTMLとJavaScript部分は変更ありません) -->
-  <h1>カジノランキング</h1>
+  <h1>ランキング</h1>
 
   <div id="podium-area"></div>
 
-  <table id="ranking-board">
-    <thead>
-      <tr>
-        <th>順位</th>
-        <th>チーム名</th>
-        <th>得点</th>
-      </tr>
-    </thead>
-    <tbody id="ranking-body"></tbody>
-  </table>
+  <!-- ★★★ HTMLの変更点: テーブルをdivで囲む ★★★ -->
+  <div class="table-wrapper">
+    <table id="ranking-board">
+      <thead>
+        <tr>
+          <th>順位</th>
+          <th>チーム名</th>
+          <th>得点</th>
+        </tr>
+      </thead>
+      <tbody id="ranking-body">
+        <!-- ここに4位以下が表示される -->
+      </tbody>
+    </table>
+  </div>
 
-  <script>
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycby1HRb733jZ2ACnKxKagRCXLy6AP1eoQlC_6Gjbxnge30UAgs4Yjy48DXWSumwCOS2EcQ/exec';
 
-    const rankImages = {
-      1: 'IMG_0412.PNG',
-      2: 'https://api.iconify.design/fluent-emoji/2nd-place-medal.svg',
-      3: 'https://api.iconify.design/fluent-emoji/3rd-place-medal.svg'
-    };
-
-    async function fetchAndUpdateRanking() {
-      try {
-        const response = await fetch(GAS_URL);
-        if (!response.ok) throw new Error(`サーバーエラー: ${response.status}`);
-        const data = await response.json();
-
-        const podiumArea = document.getElementById('podium-area');
-        const rankingBody = document.getElementById('ranking-body');
-        podiumArea.innerHTML = '';
-        rankingBody.innerHTML = '';
-
-        if (Array.isArray(data)) {
-          let rank = 1;
-          data.forEach(item => {
-            if (item.name && item.name.trim() !== '') {
-              if (rank <= 3) {
-                const rankSuffix = rank === 1 ? 'st' : (rank === 2 ? 'nd' : 'rd');
-                const podiumItem = document.createElement('div');
-                podiumItem.classList.add('podium-item', `podium-${rank}${rankSuffix}`);
-                podiumItem.innerHTML = `
-                  <img src="${rankImages[rank]}" alt="${rank}位">
-                  <div class="podium-name">${item.name}</div>
-                  <div class="podium-score">${item.score}点</div>
-                `;
-                podiumArea.appendChild(podiumItem);
-              } else {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${rank}位</td><td>${item.name}</td><td>${item.score}点</td>`;
-                rankingBody.appendChild(row);
-              }
-              rank++;
-            }
-          });
-        }
-      } catch (error) {
-        console.error('ランキング更新失敗:', error);
-      }
-    }
-
-    fetchAndUpdateRanking();
-    setInterval(fetchAndUpdateRanking, 5000);
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
