@@ -32,7 +32,8 @@ h1 {
   justify-content: center;
   align-items: flex-end;
   min-height: 280px; /* 高さが潰れないようにmin-heightに変更 */
-  margin-bottom: 20px;
+  
+  margin-bottom: 20px; /* 下マージンは維持（必要に応じて調整） */
   padding: 0 20px;
 }
 .podium-item {
@@ -52,15 +53,36 @@ h1 {
   justify-content: space-between;
 }
 
-.podium-item img { margin-bottom: 10px; }
-.podium-class {
-  font-size: 1.0em; /* 例: クラス名のサイズ */
+.podium-item img {
+  margin-bottom: 10px;
 }
-.podium-name { font-size: 1.2em; font-weight: bold; word-wrap: break-word; }
-.podium-score { font-size: 1.2em; color: #f1c40f; }
-.podium-1st { background-color: #c0392b; height: 230px; order: 2; }
-.podium-2nd { background-color: #2980b9; height: 190px; order: 1; }
-.podium-3rd { background-color: #27ae60; height: 160px; order: 3; }
+.podium-class {
+  font-size: 1.2em; /* 例: クラス名のサイズ */
+}
+.podium-name {
+  font-size: 1.6em;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+.podium-score {
+  font-size: 1.3em;
+  color: #f1c40f;
+}
+.podium-1st {
+  background-color: #c0392b;
+  height: 250px;
+  order: 2;
+}
+.podium-2nd {
+  background-color: #2980b9;
+  height: 210px;
+  order: 1;
+}
+.podium-3rd {
+  background-color: #27ae60;
+  height: 180px;
+  order: 3;
+}
 
 /* ★★★ ここからがスクロールエリアのスタイル ★★★ */
 .table-wrapper {
@@ -100,13 +122,100 @@ h1 {
   height: 50px;
 }
 
-/* ★★★ 新規追加: スマートフォンなどの狭い画面向けの調整 ★★★ */
-@media (max-width: 400px) {
-  .podium-name {
-    font-size: 1.0em; /* 小さな画面では文字サイズを少し小さくする */
+  /* 【変更前】の @media (max-width: 600px) { ... } ブロックをまるごと削除し、以下に差し替え */
+
+
+  /* ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+     【PC / スマホ共通】検索機能用のスタイル
+  ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
+  .search-container {
+    text-align: center;
+    margin: 15px 0;
   }
 
-  .podium-score {
-    font-size: 0.9em; /* 同様にスコアも少し小さくする */
+  #search-input {
+    padding: 10px;
+    width: 250px;
+    border: 2px solid #f1c40f;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1em; /* 文字サイズを追加 */
   }
-}
+
+  #search-button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #f1c40f;
+    color: #2c3e50;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em; /* 文字サイズを追加 */
+  }
+
+  #search-result-message {
+    color: #e74c3c; /* 赤色 */
+    height: 1.2em; /* メッセージがない時も高さを確保 */
+    margin-top: 5px;
+    font-size: 0.9em; /* 少し小さめに */
+  }
+
+
+  /* ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+     【PC / スマホ共通】検索結果ハイライト用のアニメーション
+  ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
+  .highlight {
+    /* アニメーションを2秒間実行 */
+    animation: highlight-animation 2s ease-out;
+  }
+
+  @keyframes highlight-animation {
+    0% {
+      background-color: rgba(241, 196, 15, 0.8); /* 開始時：黄色 */
+      transform: scale(1.05); /* 少しだけ大きくする */
+    }
+    100% {
+      /* 元の色に戻す指定は、継承に任せるため transparent ではなく inherit にするとより安全 */
+      background-color: inherit; 
+      transform: scale(1);
+    }
+  }
+
+
+  /* ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+     【ここからスマホ用】画面幅が600px以下のデバイスに適用
+  ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
+  @media (max-width: 600px) {
+
+    /* 全体の文字サイズを少し小さくする */
+    body { font-size: 14px; }
+
+    /* タイトルのサイズを調整 */
+    h1 { font-size: 1.8em; margin-top: 20px; margin-bottom: 0px; }
+
+    /* 表彰台の高さを低くする */
+    .podium-1st { height: 170px; }
+    .podium-2nd { height: 140px; }
+    .podium-3rd { height: 120px; }
+
+    /* 表彰台のイラストサイズを小さくする */
+    .podium-1st img { width: 50px; height: 50px; }
+    .podium-2nd img { width: 45px; height: 45px; }
+    .podium-3rd img { width: 40px; height: 40px; }
+
+    /* 表彰台の文字サイズを調整 */
+    .podium-class { font-size: 0.7em; }
+    .podium-item .podium-name { font-size: 0.9em; }
+    .podium-item .podium-score { font-size: 0.9em; }
+
+    #podium-area { margin-top: 0px; }
+
+    /* テーブルの文字の余白を少し詰める */
+    #ranking-board th, #ranking-board td { padding: 8px 6px; }
+
+    /* ★スマホでは検索ボックスの幅を画面に合わせる */
+    #search-input {
+      width: 60%; /* 幅を少し調整 */
+    }
+  }
