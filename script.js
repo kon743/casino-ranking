@@ -1,5 +1,7 @@
-let currentRankingData = []; // 現在のランキングデータを保持するための変数
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyeVCav3Vt8qLtLUpLwDYnpdLfGiM-MoQlOHtvIAxMtFEQfKet3uEW-MCip6nfT5pVVXg/exec';
+let currentRankingData = [];
+let searchResults = []; // ★追加: 検索結果のインデックスを保持
+let currentSearchIndex = 0; // ★追加: 現在表示している検索結果の番号
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzAYeM6Y5QCeRT4YEhfV4XDZ-GC4DypOJK0gCicMwqiVDFUHugtJNgD9_1yQTdaxM8w6g/exec';
 
 const rankImages = {
   1: 'IMG_0412.PNG',
@@ -58,56 +60,98 @@ async function fetchAndUpdateRanking() {
 }
 
 fetchAndUpdateRanking();
-setInterval(fetchAndUpdateRanking, 5000);
+setInterval(fetchAndUpdateRanking, 10000);
+
+// 【変更前】の「--- 検索機能 ---」以降のブロックをまるごと削除し、以下に差し替え
 
 // --- 検索機能 ---
+
+function updateNavButtons() {
+  const prevButton = document.getElementById('prev-button');
+  const nextButton = document.getElementById('next-button');
+
+  if (searchResults.length <= 1) {
+    prevButton.disabled = true;
+    nextButton.disabled = true;
+  } else {
+    prevButton.disabled = (currentSearchIndex === 0);
+    nextButton.disabled = (currentSearchIndex === searchResults.length - 1);
+  }
+}
+
+function scrollToResult(index) {
+  const rank = searchResults[index] + 1;
+  const targetElement = document.getElementById(`rank-${rank}`);
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+    targetElement.classList.add('highlight');
+  }
+}
 
 // 検索を実行する関数
 function performSearch() {
   const searchInput = document.getElementById('search-input');
   const messageEl = document.getElementById('search-result-message');
-  const searchTerm = searchInput.value.trim().toLowerCase(); // 入力値を小文字に変換
+  const searchTerm = searchInput.value.trim().toLowerCase();
 
-  if (!searchTerm) return; // 入力が空なら何もしない
+  searchResults = [];
+  currentSearchIndex = 0;
 
-  // 既存のハイライトを全て削除
-  document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
-
-  // 保存しておいたランキングデータから名前を検索（大文字・小文字を区別しない）
-  const foundIndex = currentRankingData.findIndex(item =>
-    item.name && String(item.name).toLowerCase().includes(searchTerm)
-  );
-
-  if (foundIndex !== -1) {
-    // 見つかった場合
-    const rank = foundIndex + 1;
-    const targetElement = document.getElementById(`rank-${rank}`);
-
-    if (targetElement) {
-      // 該当要素までスムーズスクロール（要素が画面中央に来るように）
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // ハイライト用のクラスを追加
-      targetElement.classList.add('highlight');
-      messageEl.textContent = ''; // エラーメッセージを消す
-    }
-  } else {
-    // 見つからなかった場合
-    messageEl.textContent = '該当する名前が見つかりませんでした。';
+  if (searchTerm) {
+    currentRankingData.forEach((item, index) => {
+      if (item.name && String(item.name).toLowerCase().includes(searchTerm)) {
+        searchResults.push(index);
+      }
+    });
   }
+
+  if (searchResults.length > 0) {
+    messageEl.textContent = '';
+    scrollToResult(0);
+  } else {
+    document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+    if (searchTerm) {
+      messageEl.textContent = '該当する名前が見つかりませんでした。';
+    } else {
+      messageEl.textContent = '';
+    }
+  }
+  updateNavButtons();
 }
 
-// ページの読み込みが完了したら、検索ボタンなどのイベントを設定
+// ページの読み込みが完了したら、イベントを設定
 document.addEventListener('DOMContentLoaded', () => {
   const searchButton = document.getElementById('search-button');
   const searchInput = document.getElementById('search-input');
+  const prevButton = document.getElementById('prev-button');
+  const nextButton = document.getElementById('next-button');
 
-  // 検索ボタンがクリックされたら実行
   searchButton.addEventListener('click', performSearch);
-
-  // 入力欄でEnterキーが押されたら実行
   searchInput.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-      performSearch();
+    if (event.key === 'Enter') performSearch();
+  });
+  searchInput.addEventListener('input', () => {
+    // 入力中はナビゲーションを無効化
+    document.getElementById('prev-button').disabled = true;
+    document.getElementById('next-button').disabled = true;
+    document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+  });
+
+  prevButton.addEventListener('click', () => {
+    if (currentSearchIndex > 0) {
+      currentSearchIndex--;
+      scrollToResult(currentSearchIndex);
+      updateNavButtons();
+    }
+  });
+
+  nextButton.addEventListener('click', () => {
+    if (currentSearchIndex < searchResults.length - 1) {
+      currentSearchIndex++;
+      scrollToResult(currentSearchIndex);
+      updateNavButtons();
     }
   });
 });

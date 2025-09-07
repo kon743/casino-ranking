@@ -161,6 +161,34 @@ h1 {
     font-size: 0.9em; /* 少し小さめに */
   }
 
+/* ★★★ 以下のスタイルを新しく追加 ★★★ */
+
+.search-nav-buttons {
+  display: inline-block; /* ボタンを横並びにするため */
+  vertical-align: middle; /* 高さを揃える */
+  margin-left: 8px;
+}
+
+.nav-button {
+  padding: 8px 10px;
+  border: 1px solid #f1c40f;
+  background-color: transparent;
+  color: #f1c40f;
+  font-weight: bold;
+  font-size: 1.2em; /* 矢印を少し大きく */
+  border-radius: 5px;
+  cursor: pointer;
+  line-height: 1; /* 文字の縦位置を中央に */
+}
+
+/* ボタンが押せない（disabled）状態の時のスタイル */
+.nav-button:disabled {
+  color: #555;
+  border-color: #555;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 
   /* ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
      【PC / スマホ共通】検索結果ハイライト用のアニメーション
