@@ -18,14 +18,21 @@ body {
   overflow: hidden; /* ページ全体のスクロールを禁止 */
 }
 
-h1 {
+.logo {
+  /* ロゴの上下の余白を調整します */
+  margin: 20px 0 10px;
+  /* 中の画像（img）を中央揃えにします */
   text-align: center;
-  color: #f1c40f;
-  text-shadow: 2px 2px 4px #000;
-  font-size: 2.5em;
-  margin: 25px 0 0; /* 上下の余白を調整 */
 }
 
+.logo img {
+  /* ロゴの高さを指定します。この数値を変更すると大きさが変わります */
+  height: 110px;
+  /* 横幅は、高さに合わせて自動で調整されます */
+  width: auto;
+  /* スマホなどで画面が極端に狭くなった時も、はみ出ないようにするおまじない */
+  max-width: 90%;
+}
 
 
 /* 表彰台全体のエリア設定 */
@@ -235,7 +242,7 @@ h1 {
     }
     100% {
       /* 元の色に戻す指定は、継承に任せるため transparent ではなく inherit にするとより安全 */
-      background-color: inherit; 
+      background-color: inherit;
       transform: scale(1);
     }
   }
@@ -249,8 +256,7 @@ h1 {
     /* 全体の文字サイズを少し小さくする */
     body { font-size: 14px; }
 
-    /* タイトルのサイズを調整 */
-    h1 { font-size: 1.8em; margin-top: 20px; margin-bottom: 0px; }
+
 
 
   #podium-area { min-height: 100px; } /* スマホではエリアの高さを少し詰める */
@@ -273,8 +279,8 @@ h1 {
     #podium-area { margin-top: 0px; }
 
     /* テーブルの文字の余白を少し詰める */
-    #ranking-board th, #ranking-board td { 
-      padding: 8px 6px; 
+    #ranking-board th, #ranking-board td {
+      padding: 8px 6px;
       font-size: 0.8em; /* ★スマホ用のフォントサイズをここに指定 */
     }
 
