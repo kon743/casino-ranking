@@ -15,7 +15,7 @@ async function fetchAndUpdateRanking() {
     if (!response.ok) throw new Error(`サーバーエラー: ${response.status}`);
     const data = await response.json();
 
-    currentRankingData = data; // ★変更点: 取得したデータを変数に保存
+    currentRankingData = data;
 
     const podiumArea = document.getElementById('podium-area');
     const rankingBody = document.getElementById('ranking-body');
@@ -27,24 +27,30 @@ async function fetchAndUpdateRanking() {
       data.forEach(item => {
         if (item.name && String(item.name).trim() !== '') {
           if (rank <= 3) {
+            // === ここからが新しい表彰台のコード ===
             const rankSuffix = rank === 1 ? 'st' : (rank === 2 ? 'nd' : 'rd');
-            const podiumItem = document.createElement('div');
-            podiumItem.id = `rank-${rank}`; // ★変更点: IDを付与
-            podiumItem.classList.add('podium-item', `podium-${rank}${rankSuffix}`);
+            const podiumRankContainer = document.createElement('div');
+            podiumRankContainer.id = `rank-${rank}`;
+            podiumRankContainer.classList.add('podium-rank-container', `podium-${rank}${rankSuffix}`);
 
             const classHtml = item.class && String(item.class).trim() !== '' ? `<div class="podium-class">${item.class}</div>` : '';
-            podiumItem.innerHTML = `
-              <img src="${rankImages[rank]}" alt="${rank}位">
-              <div class="podium-text-content">
-                ${classHtml}
-                <div class="podium-name">${item.name}</div>
-                <div class="podium-score">${item.score}点</div>
+
+            podiumRankContainer.innerHTML = `
+              <div class="podium-content">
+                <img src="${rankImages[rank]}" alt="${rank}位">
+                <div class="podium-text-content">
+                  ${classHtml}
+                  <div class="podium-name">${item.name}</div>
+                  <div class="podium-score">${item.score}点</div>
+                </div>
               </div>
+              <div class="podium-base"></div>
             `;
-            podiumArea.appendChild(podiumItem);
+            podiumArea.appendChild(podiumRankContainer);
+            // === ここまでが新しい表彰台のコード ===
           } else {
             const row = document.createElement('tr');
-            row.id = `rank-${rank}`; // ★変更点: IDを付与
+            row.id = `rank-${rank}`;
 
             const classText = item.class && String(item.class).trim() !== '' ? item.class : '';
             row.innerHTML = `<td>${rank}位</td><td>${classText}</td><td>${item.name}</td><td>${item.score}点</td>`;
@@ -52,12 +58,12 @@ async function fetchAndUpdateRanking() {
           }
           rank++;
         }
-      });
-    }
-  } catch (error) {
+      }); // forEachの閉じ括弧
+    } // if (Array.isArray)の閉じ括弧
+  } catch (error) { // tryに対応するcatch
     console.error('ランキング更新失敗:', error);
-  }
-}
+  } // catchの閉じ括弧
+} // fetchAndUpdateRanking関数の閉じ括弧
 
 fetchAndUpdateRanking();
 setInterval(fetchAndUpdateRanking, 10000);

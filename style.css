@@ -23,66 +23,93 @@ h1 {
   color: #f1c40f;
   text-shadow: 2px 2px 4px #000;
   font-size: 2.5em;
-  margin: 25px 0 0px; /* 上下の余白を調整 */
+  margin: 25px 0 0; /* 上下の余白を調整 */
 }
 
-/* --- 表彰台エリア (変更なし) --- */
+
+
+/* 表彰台全体のエリア設定 */
 #podium-area {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  min-height: 280px; /* 高さが潰れないようにmin-heightに変更 */
-  
-  margin-bottom: 20px; /* 下マージンは維持（必要に応じて調整） */
-  padding: 0 20px;
+  position: relative;
+
+  /* ★★★ ここからが変更点 ★★★ */
+  /* 1位のコンテンツがはみ出すための「安全な余白」を上部に確保 */
+  padding-top: 140px;
+  /* heightは土台部分の高さだけで計算するように調整 */
+  height: 170px; /* (元の350px - padding-topの180px = 170px) */
+  /* ★★★ ここまで ★★★ */
+
+  margin-bottom: 20px;
+  padding-left: 20px; /* paddingの指定を個別にする */
+  padding-right: 20px;
 }
-.podium-item {
+
+/* 順位ごとのコンテナ */
+.podium-rank-container {
   width: 30%;
   max-width: 180px;
-  padding: 20px 10px;
   margin: 0 5px;
+  position: relative; /* ★この要素がコンテンツ配置の基準点になる */
+}
+
+/* ★順位の表示順を制御 */
+.podium-1st { order: 2; }
+.podium-2nd { order: 1; }
+.podium-3rd { order: 3; }
+
+/* コンテンツ部分（イラストや文字）のスタイル */
+.podium-content {
+  /* ★★★ ここが核心部分 ★★★ */
+  position: absolute; /* ★位置を絶対指定にする */
+  bottom: 100%; /* ★親要素（土台）の真上に配置する */
+  left: 0;
+  right: 0;
+  margin: 0 auto 10px; /* ★横方向の中央揃えと、土台との間に10pxの隙間を確保 */
+
+  /* 親要素からはみ出ても表示されるようにz-indexを設定 */
+  z-index: 10;
   text-align: center;
+}
+
+/* 土台部分のスタイル */
+.podium-base {
+  width: 100%;
   border-radius: 10px 10px 0 0;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   transition: all 0.3s ease;
-  display: flex; /* Flexboxレイアウトを有効化 */
-  flex-direction: column; /* 要素を縦に並べる */
-  justify-content: flex-end; /* ★文字を下揃えにする */
-  align-items: center; /* ★イラストを水平方向（横）に中央揃えにする */
-  /* ★★★ 変更点: 上下いっぱいに要素を配置する ★★★ */
-  justify-content: space-between;
 }
 
-.podium-item img {
-  margin-bottom: 10px;
+/* 土台の色と高さを順位ごとに指定 */
+.podium-1st .podium-base { background-color: #ffbf00; height: 150px; }
+.podium-2nd .podium-base { background-color: #c9313e; height: 120px; }
+.podium-3rd .podium-base { background-color: #27ae60; height: 90px; }
+
+
+
+
+
+
+/* ... (イラストサイズや文字サイズの指定はそのまま) ... */
+
+/* イラストのスタイル */
+.podium-content img {
+  transition: all 0.3s ease;
 }
-.podium-class {
-  font-size: 1.2em; /* 例: クラス名のサイズ */
-}
-.podium-name {
-  font-size: 1.6em;
-  font-weight: bold;
-  word-wrap: break-word;
-}
-.podium-score {
-  font-size: 1.3em;
-  color: #f1c40f;
-}
-.podium-1st {
-  background-color: #c0392b;
-  height: 250px;
-  order: 2;
-}
-.podium-2nd {
-  background-color: #2980b9;
-  height: 210px;
-  order: 1;
-}
-.podium-3rd {
-  background-color: #27ae60;
-  height: 180px;
-  order: 3;
-}
+
+/* ★イラストのサイズを順位ごとに指定 */
+.podium-1st img { width: 100px; height: 100px; }
+.podium-2nd img { width: 70px; height: 70px; }
+.podium-3rd img { width: 50px; height: 50px; }
+
+/* テキスト部分のスタイル */
+.podium-class { font-size: 1.4em; opacity: 0.8; }
+.podium-name { font-size: 2.0em; font-weight: bold; overflow-wrap: break-word; }
+.podium-score { font-size: 1.5em; color: #f1c40f; }
+
+
 
 /* ★★★ ここからがスクロールエリアのスタイル ★★★ */
 .table-wrapper {
@@ -104,7 +131,12 @@ h1 {
   border-collapse: collapse;
   background-color: rgba(0, 0, 0, 0.4);
 }
-#ranking-board th, #ranking-board td { border-bottom: 1px solid #34495e; padding: 12px 15px; text-align: left; }
+#ranking-board th, #ranking-board td {
+  border-bottom: 1px solid #34495e;
+  padding: 12px 15px;
+  text-align: left;
+   font-size: 1.3em; /* フォントサイズを指定 */
+ }
 #ranking-board th { background-color: rgba(0, 0, 0, 0.5); }
 #ranking-board tr:hover { background-color: rgba(255, 255, 255, 0.1); }
 
@@ -122,15 +154,13 @@ h1 {
   height: 50px;
 }
 
-  /* 【変更前】の @media (max-width: 600px) { ... } ブロックをまるごと削除し、以下に差し替え */
-
 
   /* ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
      【PC / スマホ共通】検索機能用のスタイル
   ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
   .search-container {
     text-align: center;
-    margin: 15px 0;
+    margin: 10px 0;
   }
 
   #search-input {
@@ -222,20 +252,23 @@ h1 {
     /* タイトルのサイズを調整 */
     h1 { font-size: 1.8em; margin-top: 20px; margin-bottom: 0px; }
 
-    /* 表彰台の高さを低くする */
-    .podium-1st { height: 170px; }
-    .podium-2nd { height: 140px; }
-    .podium-3rd { height: 120px; }
 
-    /* 表彰台のイラストサイズを小さくする */
-    .podium-1st img { width: 50px; height: 50px; }
-    .podium-2nd img { width: 45px; height: 45px; }
-    .podium-3rd img { width: 40px; height: 40px; }
+  #podium-area { min-height: 250px; } /* スマホではエリアの高さを少し詰める */
 
-    /* 表彰台の文字サイズを調整 */
-    .podium-class { font-size: 0.7em; }
-    .podium-item .podium-name { font-size: 0.9em; }
-    .podium-item .podium-score { font-size: 0.9em; }
+  /* ★土台の高さを低くする */
+  .podium-1st .podium-base { height: 100px; }
+  .podium-2nd .podium-base { height: 80px; }
+  .podium-3rd .podium-base { height: 65px; }
+
+  /* ★イラストサイズを小さくする */
+  .podium-1st img { width: 60px; height: 60px; }
+  .podium-2nd img { width: 50px; height: 50px; }
+  .podium-3rd img { width: 45px; height: 45px; }
+
+  /* ★文字サイズを調整 */
+  .podium-class { font-size: 0.7em; }
+  .podium-name { font-size: 0.9em; }
+  .podium-score { font-size: 0.9em; }
 
     #podium-area { margin-top: 0px; }
 
