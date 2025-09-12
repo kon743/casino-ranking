@@ -253,7 +253,7 @@ h1 {
     h1 { font-size: 1.8em; margin-top: 20px; margin-bottom: 0px; }
 
 
-  #podium-area { min-height: 250px; } /* スマホではエリアの高さを少し詰める */
+  #podium-area { min-height: 100px; } /* スマホではエリアの高さを少し詰める */
 
   /* ★土台の高さを低くする */
   .podium-1st .podium-base { height: 100px; }
@@ -273,10 +273,16 @@ h1 {
     #podium-area { margin-top: 0px; }
 
     /* テーブルの文字の余白を少し詰める */
-    #ranking-board th, #ranking-board td { padding: 8px 6px; }
+    #ranking-board th, #ranking-board td { 
+      padding: 8px 6px; 
+      font-size: 0.8em; /* ★スマホ用のフォントサイズをここに指定 */
+    }
 
     /* ★スマホでは検索ボックスの幅を画面に合わせる */
     #search-input {
       width: 60%; /* 幅を少し調整 */
+    }
+    #podium-area {
+  padding-top: 50px;
     }
   }
