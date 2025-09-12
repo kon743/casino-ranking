@@ -7,22 +7,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="logo">
-   <img src="casino-logo.png"alt="ランキング">
-</div>
 
-  <div class="search-container">
-    <input type="search" id="search-input" placeholder="名前を入力して検索">
-    <button id="search-button">検索</button>
+<header>
+  <div class="logo-container">
+     <img src="casino-logo.png" alt="ランキング">
+  </div>
+
+  <div class="search-wrapper">
+    <div class="search-container">
+      <input type="search" id="search-input" placeholder="名前を入力して検索">
+      <button id="search-button">検索</button>
+    </div>
+    <div class="search-nav-buttons">
+      <button id="prev-button" class="nav-button" disabled>&uarr;</button>
+      <button id="next-button" class="nav-button" disabled>&darr;</button>
+    </div>
     <p id="search-result-message"></p>
   </div>
-  <div class="search-nav-buttons">
-    <button id="prev-button" class="nav-button" disabled>&uarr;</button>
-    <button id="next-button" class="nav-button" disabled>&darr;</button>
-  </div>
-  <p id="search-result-message"></p>
-  </div>
-
+</header>
 
   <div id="podium-area"></div>
 
