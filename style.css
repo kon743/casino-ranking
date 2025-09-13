@@ -159,9 +159,9 @@ body {
 .podium-content img {
   transition: all 0.3s ease;
 }
-.podium-1st img { width: 100px; height: 100px; }
-.podium-2nd img { width: 70px; height: 70px; }
-.podium-3rd img { width: 50px; height: 50px; }
+.podium-1st img { width: 140px; height: 140px; object-fit: contain;}
+.podium-2nd img { width: 130px; height: 130px; object-fit: contain;}
+.podium-3rd img { width: 100px; height: 100px; object-fit: contain;}
 
 header {
   /* ★この要素が、中の絶対配置要素の基準点になる */
