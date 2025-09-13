@@ -203,7 +203,7 @@ header {
 }
 #search-input {
   padding: 10px;
-  width: 200px; /* 幅を少し固定的に */
+  width: 150px; /* 幅を少し固定的に */
   border: 2px solid #f1c40f;
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -281,7 +281,7 @@ header {
      【ここからスマホ用】画面幅が600px以下のデバイスに適用
   ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
   @media (max-width: 768px) {
-  
+
   /* --- ヘッダーのレイアウトを縦積みに変更 --- */
   header {
     height: auto; /* ★高さを自動調整に変更 */
@@ -312,10 +312,10 @@ header {
   }
 
   /* --- ここからは、さらに狭い画面（600px以下）向けの微調整 --- */
-  
+
   /* 全体の文字サイズを少し小さくする */
   body { font-size: 14px; }
-  
+
   /* 表彰台の高さを低くする */
   #podium-area { height: 280px; }
   .podium-1st .podium-base { height: 100px; }
