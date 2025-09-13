@@ -4,9 +4,9 @@ let currentSearchIndex = 0; // ★追加: 現在表示している検索結果�
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzAYeM6Y5QCeRT4YEhfV4XDZ-GC4DypOJK0gCicMwqiVDFUHugtJNgD9_1yQTdaxM8w6g/exec';
 
 const rankImages = {
-  1: 'IMG_0412.PNG',
-  2: 'https://api.iconify.design/fluent-emoji/2nd-place-medal.svg',
-  3: 'https://api.iconify.design/fluent-emoji/3rd-place-medal.svg'
+  1: 'ranking_1.png',
+  2: 'ranking_2.png',
+  3: 'ranking_3.png'
 };
 
 async function fetchAndUpdateRanking() {
