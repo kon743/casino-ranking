@@ -280,46 +280,61 @@ header {
   /* ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
      【ここからスマホ用】画面幅が600px以下のデバイスに適用
   ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
+  
+  /* --- ヘッダーのレイアウトを縦積みに変更 --- */
+  header {
+    height: auto; /* ★高さを自動調整に変更 */
+    display: flex;
+    flex-direction: column; /* ★ロゴと検索を縦に並べる */
+    align-items: center;   /* ★水平方向（横）に中央揃え */
+    gap: 15px; /* ★ロゴと検索の間の隙間 */
+    padding-bottom: 15px;
+  }
 
-    /* 全体の文字サイズを少し小さくする */
-    body { font-size: 14px; }
+  /* ★position:absolute指定を解除し、通常のレイアウトに戻す */
+  .logo-container,
+  .search-wrapper {
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+    right: auto;
+  }
 
+  /* --- 検索機能を中央揃えに --- */
+  .search-wrapper {
+    width: 100%;
+    text-align: center; /* メッセージなどを中央に */
+    display: flex;
+    justify-content: center; /* 検索欄や矢印を中央に */
+    flex-wrap: wrap; /* 狭い画面で矢印が改行できるように */
+  }
 
-
-#podium-area {
-  padding-top: 80px;  /* スマホでは上の安全な余白を詰める */
-  height: 150px;      /* 土台部分の高さも詰める */
-  min-height: auto; /* 不要なmin-height指定をリセット */
-}
-
-
-  /* ★土台の高さを低くする */
+  /* --- ここからは、さらに狭い画面（600px以下）向けの微調整 --- */
+  
+  /* 全体の文字サイズを少し小さくする */
+  body { font-size: 14px; }
+  
+  /* 表彰台の高さを低くする */
+  #podium-area { height: 280px; }
   .podium-1st .podium-base { height: 100px; }
   .podium-2nd .podium-base { height: 80px; }
   .podium-3rd .podium-base { height: 65px; }
 
-  /* ★イラストサイズを小さくする */
+  /* イラストサイズを小さくする */
   .podium-1st img { width: 60px; height: 60px; }
   .podium-2nd img { width: 50px; height: 50px; }
   .podium-3rd img { width: 45px; height: 45px; }
 
-  /* ★文字サイズを調整 */
+  /* 表彰台の文字サイズを調整 */
   .podium-class { font-size: 0.7em; }
   .podium-name { font-size: 0.9em; }
   .podium-score { font-size: 0.9em; }
 
-
-
-    /* テーブルの文字の余白を少し詰める */
-    #ranking-board th, #ranking-board td {
-      padding: 8px 6px;
-      font-size: 0.8em; /* ★スマホ用のフォントサイズをここに指定 */
-    }
-
-    /* ★スマホでは検索ボックスの幅を画面に合わせる */
-    #search-input {
-      width: 60%; /* 幅を少し調整 */
-    }
-
+  /* テーブルの文字の余白を少し詰める */
+  #ranking-board th, #ranking-board td {
+    padding: 8px 6px;
+    font-size: 0.8em;
   }
+}
