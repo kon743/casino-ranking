@@ -30,7 +30,7 @@ body {
 
   /* ★★★ ここからが変更点 ★★★ */
   /* 1位のコンテンツがはみ出すための「安全な余白」を上部に確保 */
-  padding-top: 240px;
+  padding-top: 300px;
   /* heightは土台部分の高さだけで計算するように調整 */
   height: 170px; /* (元の350px - padding-topの180px = 170px) */
   /* ★★★ ここまで ★★★ */
@@ -159,9 +159,9 @@ body {
 .podium-content img {
   transition: all 0.3s ease;
 }
-.podium-1st img { width: 140px; height: 140px; object-fit: contain;}
-.podium-2nd img { width: 130px; height: 130px; object-fit: contain;}
-.podium-3rd img { width: 100px; height: 100px; object-fit: contain;}
+.podium-1st img { width: 140px; height: 60px; object-fit: contain;}
+.podium-2nd img { width: 130px; height: 60px; object-fit: contain;}
+.podium-3rd img { width: 100px; height: 50px; object-fit: contain;}
 
 header {
   /* ★この要素が、中の絶対配置要素の基準点になる */
